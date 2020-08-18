@@ -1,0 +1,95 @@
+ALTER TABLE SCOTT.TBL_TIMEPROCE
+ DROP PRIMARY KEY CASCADE;
+DROP TABLE SCOTT.TBL_TIMEPROCE CASCADE CONSTRAINTS;
+
+CREATE TABLE SCOTT.TBL_TIMEPROCE
+(
+  UNAME                   VARCHAR2(26 BYTE),
+  PWD                     VARCHAR2(26 BYTE),
+  TYPE                    NUMBER,
+  TIME_1                  NUMBER,
+  TIME_2                  NUMBER,
+  TIME_3                  NUMBER,
+  TIME_4                  NUMBER,
+  TIME_5                  NUMBER,
+  TIME_6                  NUMBER,
+  TIME_7                  NUMBER,
+  TIME_8                  NUMBER,
+  TIME_9                  NUMBER,
+  TIME_10                 NUMBER,
+  TIME_11                 NUMBER,
+  TIME_12                 NUMBER,
+  TIME_13                 NUMBER,
+  TIME_14                 NUMBER,
+  TIME_15                 NUMBER,
+  TIME_16                 NUMBER,
+  TIME_17                 NUMBER,
+  TIME_18                 NUMBER,
+  TIME_19                 NUMBER,
+  TIME_20                 NUMBER,
+  TIME_21                 NUMBER,
+  TIME_22                 NUMBER,
+  TIME_23                 NUMBER,
+  TIME_24                 NUMBER,
+  TIME_25                 NUMBER,
+  TIME_26                 NUMBER,
+  TIME_ADDITIONAL         NUMBER,
+  TOTAL_TIME_TAKEN        NUMBER,
+  TIME_TOTAL_STAMP        NUMBER,
+  TIME_ADDITIONAL_STRING  VARCHAR2(30 BYTE),
+  TOTALTIMETAKEN_STRING   VARCHAR2(30 BYTE),
+  TIMETOTALSTAMP_STRING   VARCHAR2(30 BYTE),
+  GSA_ID                  VARCHAR2(15 BYTE)     NOT NULL,
+  TABLE_ID                NUMBER(38)            NOT NULL
+)
+TABLESPACE USERS
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+CREATE UNIQUE INDEX SCOTT.TBL_TIMEPROCE_PK ON SCOTT.TBL_TIMEPROCE
+(TABLE_ID)
+LOGGING
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+ALTER TABLE SCOTT.TBL_TIMEPROCE ADD (
+  CONSTRAINT TBL_TIMEPROCE_PK
+ PRIMARY KEY
+ (TABLE_ID)
+    USING INDEX 
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+               ));

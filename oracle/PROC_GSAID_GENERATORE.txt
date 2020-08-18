@@ -1,0 +1,74 @@
+CREATE OR REPLACE PROCEDURE SCOTT.PROC_GSAID_GENERATORE
+IS
+    GSA_STRING VARCHAR2(10);
+    T_ID INT;
+    GSA_ID VARCHAR2(15);
+    GSA_NUMBER NUMBER;
+    OWNER_NAME VARCHAR2(25);
+    CURSOR FETCH_DATA
+        IS
+            SELECT TABLE_ID,GSA_ID,OWNER FROM TBL_GSA_ID_GENERATORE
+            WHERE TABLE_ID = (SELECT MAX(TABLE_ID) FROM TBL_GSA_ID_GENERATORE);
+                BEGIN
+                    OPEN FETCH_DATA;
+                        FETCH FETCH_DATA INTO T_ID,GSA_ID,OWNER_NAME;
+                            IF FETCH_DATA %NOTFOUND THEN
+                            T_ID :=0;
+                            DBMS_OUTPUT.PUT_LINE('HELLO WORLD 1' ||T_ID);
+                            GSA_ID := 'GSAXXX0000';
+                            DBMS_OUTPUT.PUT_LINE('HELLO WORLD 2' || GSA_ID);
+                            END IF;
+                                IF T_ID =0 THEN
+                                T_ID := T_ID + 1;
+                                DBMS_OUTPUT.PUT_LINE('HELLO WORLD TID NULL 3 ' || T_ID);
+                                    ELSE IF T_ID !=0 THEN
+                                        T_ID := T_ID + 1;
+                                    DBMS_OUTPUT.PUT_LINE('HELLO WORLD T_ID +1 4 ' || T_ID);
+                                    END IF;
+                                END IF;
+                                        IF GSA_ID = 'GSAXXX0000' THEN
+                                        DBMS_OUTPUT.PUT_LINE('HELLO WORLD GSA_ID 5 ' ||GSA_ID);
+                                        GSA_STRING := SUBSTR(GSA_ID,-4);
+                                        DBMS_OUTPUT.PUT_LINE('HELLO WORCCCLD GSA_STRING 6 ' ||GSA_STRING);
+                                        GSA_NUMBER := TO_NUMBER(GSA_STRING);
+                                        DBMS_OUTPUT.PUT_LINE('HELLO WORLD GSA_NUMBER 7 ' ||GSA_NUMBER);
+                                        GSA_NUMBER := GSA_NUMBER +1;
+                                        DBMS_OUTPUT.PUT_LINE('HELLO WORLD GSA_NUMBER+1 8 ' || GSA_NUMBER);
+                                        GSA_ID := LPAD(GSA_ID,9);
+                                        DBMS_OUTPUT.PUT_LINE('HELLO WORLD LPAD GSA_ID 9 ' || GSA_ID);
+                                        GSA_ID := CONCAT(GSA_ID,GSA_NUMBER);
+                                        DBMS_OUTPUT.PUT_LINE('HELLO WORLD GSA_ID CONCAT 10 ' || GSA_ID);
+                                        DBMS_OUTPUT.PUT_LINE('HELLO WORLD T_ID 11 ' || T_ID);
+                                            ELSE IF GSA_ID != 'GSAXXX0000' THEN
+                                                DBMS_OUTPUT.PUT_LINE('HELLO WORCCCLD GSA_ID 12 ' ||GSA_ID);
+                                                GSA_STRING := SUBSTR(GSA_ID,-4);
+                                                DBMS_OUTPUT.PUT_LINE('HELLO WORCCCLD GSA_STRING 13 ' ||GSA_STRING);
+                                                GSA_NUMBER := TO_NUMBER(GSA_STRING);
+                                                DBMS_OUTPUT.PUT_LINE('HELLO WORCCCLD GSA_NUMBER TO_NUMBER 14 ' ||GSA_NUMBER);
+                                                DBMS_OUTPUT.PUT_LINE('HELLO WORCCCCLD GSA_NUMBER 15 ' ||GSA_NUMBER);
+                                                GSA_NUMBER := GSA_NUMBER+1;
+                                                DBMS_OUTPUT.PUT_LINE('HELLO WORCCCCLD GSA_NUMBER+1 16 ' || GSA_NUMBER);
+                                                GSA_ID := LPAD(GSA_ID,9);
+                                                DBMS_OUTPUT.PUT_LINE('HELLO WORCCCCCLD LPAD GSA_ID 17 ' || GSA_ID);
+                                                GSA_ID := CONCAT(GSA_ID,GSA_NUMBER);
+                                                DBMS_OUTPUT.PUT_LINE('HELLO WORCCCCCCCLD GSA_ID CONCAT 18 ' || GSA_ID);
+                                                DBMS_OUTPUT.PUT_LINE('HELLO WORCCCCCLD T_ID 19 ' || T_ID);
+                                            END IF;
+                                        END IF;
+                                       DBMS_OUTPUT.PUT_LINE('HELLO WORCCCCCLD T_ID 20 ' || T_ID);
+                                                INSERT INTO TBL_GSA_ID_GENERATORE (TABLE_ID,GSA_ID)
+                                                VALUES (T_ID,GSA_ID);
+                                                COMMIT;
+                                                INSERT INTO TBL_SIGNUP (TABLE_ID,GSA_ID)
+                                                VALUES (T_ID,GSA_ID);
+                                                COMMIT;
+                                                INSERT INTO TBL_TIMEPROCE (GSA_ID,TABLE_ID)
+                                                VALUES (GSA_ID,T_ID);
+                                                COMMIT;
+                                                CLOSE FETCH_DATA;
+                                                EXCEPTION
+                                                WHEN OTHERS THEN
+                                                RAISE_APPLICATION_ERROR(-20001,'AN ERROR WAS ENCOUNTERED -
+                                                '||SQLCODE||' -ERROR- '||SQLERRM);
+                                                END;
+/

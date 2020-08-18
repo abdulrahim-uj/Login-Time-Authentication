@@ -1,0 +1,135 @@
+CREATE OR REPLACE PROCEDURE SCOTT.PROC_SIGNIN_GSA (USER_NAME IN VARCHAR2, 
+                                             USER_PASSWORD IN VARCHAR2, 
+                                             TOTAL_TIME IN NUMBER,
+                                             USER_TYPE OUT NUMBER,
+                                             RETURN_VAL OUT NUMBER,
+                                             USER_GSA_ID OUT VARCHAR2,
+                                             MESSAGE OUT VARCHAR2)
+IS
+    LS_UNAME VARCHAR2(30);
+    LS_PWD VARCHAR2(30);
+    LS_GSA_ID VARCHAR2(15);
+    LI_TABLE_ID INT;
+    LI_USER_TYPE INT;
+    LN_FULL_TIME NUMBER;
+    LN_ADD NUMBER;
+    LS_OWNER VARCHAR2(30);
+    CURSOR FETCH_ONLINE
+    IS
+        SELECT UNAME,TYPE,GSA_ID,SIGNUP_TABLE_ID FROM TBL_SIGNIN
+        WHERE GSA_ID = LS_GSA_ID
+        AND UNAME = LS_UNAME
+        AND TYPE = LI_USER_TYPE
+        AND SIGNAL = 'ONLINE';
+    CURSOR FETCH_USER
+    IS
+        SELECT TABLE_ID,GSA_ID,OWNER FROM TBL_GSA_ID_GENERATORE
+        WHERE TABLE_ID = LI_TABLE_ID
+        AND GSA_ID = LS_GSA_ID
+        AND OWNER = LS_UNAME
+        AND OWNER IS NOT NULL;
+    CURSOR FETCH_TIMEPROCE
+    IS 
+        SELECT UNAME,PWD,TYPE,GSA_ID,TABLE_ID FROM TBL_TIMEPROCE
+        WHERE UNAME = USER_NAME
+        AND PWD = USER_PASSWORD
+        AND TOTAL_TIME_TAKEN = LN_FULL_TIME
+        AND GSA_ID = LS_GSA_ID
+        AND TABLE_ID = LI_TABLE_ID;
+    CURSOR FETCH_SIGNUP
+    IS
+        SELECT UNAME,PWD,TYPE,TOTAL_TIME_TAKEN,GSA_ID,TABLE_ID FROM TBL_SIGNUP
+        WHERE UNAME = USER_NAME
+        AND PWD = USER_PASSWORD
+        AND TOTAL_TIME_TAKEN >= TOTAL_TIME
+        AND TOTAL_TIME_TAKEN <= LN_ADD;
+            BEGIN
+            DBMS_OUTPUT.PUT_LINE('NO USER TOTAL_TIME  '||TOTAL_TIME);
+            LN_ADD := TOTAL_TIME + 100;
+            DBMS_OUTPUT.PUT_LINE('NO USER ADD  '||LN_ADD);
+            OPEN FETCH_SIGNUP;
+            FETCH FETCH_SIGNUP INTO LS_UNAME,
+                                  LS_PWD,
+                                  LI_USER_TYPE,
+                                  LN_FULL_TIME,
+                                  LS_GSA_ID,
+                                  LI_TABLE_ID;
+                IF FETCH_SIGNUP %NOTFOUND THEN
+                    DBMS_OUTPUT.PUT_LINE('NO USER '||LS_UNAME);
+                    RETURN_VAL :='0';  --NO USER
+                    DBMS_OUTPUT.PUT_LINE('NO USER 1   '||RETURN_VAL);
+                    MESSAGE :='AN ERROR OCCURED IN YOUR USER NAME / PASSWORD / TIME AUTHENTICATION, PLEASE MAINTAIN YOUR AUTHENTICATED TIME !!!';
+                    DBMS_OUTPUT.PUT_LINE('MESSAGE 1  '||MESSAGE);
+                END IF;      
+                    IF FETCH_SIGNUP %FOUND THEN
+                        DBMS_OUTPUT.PUT_LINE('AVAILABLE USER '||LS_UNAME);
+                        OPEN FETCH_TIMEPROCE;
+                        FETCH FETCH_TIMEPROCE INTO LS_UNAME,
+                                              LS_PWD,
+                                              LI_USER_TYPE,
+                                              LS_GSA_ID,
+                                              LI_TABLE_ID;
+                            IF FETCH_TIMEPROCE %NOTFOUND THEN
+                                DBMS_OUTPUT.PUT_LINE('INSIDE NO USER '||LS_UNAME);
+                                RETURN_VAL :='0';  --NO USER TIMEPROCE
+                                DBMS_OUTPUT.PUT_LINE('NO USER 2   '||RETURN_VAL);
+                                MESSAGE :='AN ERROR OCCURED IN YOUR USER INTERFACE, PLEASE CONTACT HELPDESK TEAM ...';
+                                DBMS_OUTPUT.PUT_LINE('MESSAGE 2  '||MESSAGE);
+                            END IF;
+                                IF FETCH_TIMEPROCE %FOUND THEN
+                                    DBMS_OUTPUT.PUT_LINE('INSIDE AVAILABLE USER '||LS_UNAME);
+                                    OPEN FETCH_USER;
+                                    FETCH FETCH_USER INTO LI_TABLE_ID,
+                                                          LS_GSA_ID,
+                                                          LS_OWNER;
+                                        IF FETCH_USER %NOTFOUND THEN
+                                            DBMS_OUTPUT.PUT_LINE('OWNER SELECTION INVALIDE '||LS_UNAME);
+                                            RETURN_VAL :='0';  --NO USER ORGINAL
+                                            DBMS_OUTPUT.PUT_LINE('NO USER 3  '||RETURN_VAL);
+                                            MESSAGE :='NO USER FOUND IN YOU ENTERED CRITERIA, PLEASE CHECK IT OUT !!!';
+                                            DBMS_OUTPUT.PUT_LINE('MESSAGE 3  '||MESSAGE);
+                                        END IF;
+                                            IF FETCH_USER %FOUND THEN
+                                                DBMS_OUTPUT.PUT_LINE('OWNER SELECTION VALIDE '||LS_UNAME);
+                                                OPEN FETCH_ONLINE;
+                                                FETCH FETCH_ONLINE INTO LS_UNAME,
+                                                                        LI_USER_TYPE,
+                                                                        LS_GSA_ID,
+                                                                        LI_TABLE_ID;
+                                                    IF FETCH_ONLINE %NOTFOUND THEN
+                                                        DBMS_OUTPUT.PUT_LINE('USER NOT IN ONLINE '|| LS_UNAME);
+                                                        INSERT INTO TBL_SIGNIN (UNAME,PWD,TYPE,GSA_ID,SIGNUP_TABLE_ID,SIGNAL)
+                                                        VALUES (LS_UNAME,LS_PWD,LI_USER_TYPE,LS_GSA_ID,LI_TABLE_ID,'ONLINE');
+                                                        COMMIT;
+                                                        USER_GSA_ID :=LS_GSA_ID;
+                                                        DBMS_OUTPUT.PUT_LINE('USER SIGNAL IS ON-LINE GSA '|| USER_GSA_ID);
+                                                        USER_TYPE :=LI_USER_TYPE;
+                                                        DBMS_OUTPUT.PUT_LINE('USER SIGNAL IS ON-LINE RETURN TYPE '|| USER_TYPE);
+                                                        RETURN_VAL :='1';    --EXECUTE SUCCESFULLY RETURN VALUE IS 1 FOR SUCCESS
+                                                        DBMS_OUTPUT.PUT_LINE('USER SIGNAL IS ON-LINE RETURN '|| RETURN_VAL);
+                                                        MESSAGE :='SUCCESS ...';
+                                                        DBMS_OUTPUT.PUT_LINE('MESSAGE 4  '||MESSAGE);
+                                                    END IF;
+                                                        IF FETCH_ONLINE %FOUND THEN
+                                                            USER_GSA_ID :=LS_GSA_ID;
+                                                            DBMS_OUTPUT.PUT_LINE('USER SIGNAL IS ON-GOING GSA '|| USER_GSA_ID);
+                                                            RETURN_VAL :='2';  --IT RETURNS VALUE 2 FOR USER ALREADY EXIST IN ONLINE
+                                                            DBMS_OUTPUT.PUT_LINE('USER SIGNAL IS ON-GOING VALUE '|| RETURN_VAL);
+                                                            USER_TYPE :=LI_USER_TYPE;
+                                                            DBMS_OUTPUT.PUT_LINE('USER SIGNAL IS ON-GOING RETURN TYPE '|| USER_TYPE);
+                                                            MESSAGE :='USER ALREADY SIGNED IN ...';
+                                                            DBMS_OUTPUT.PUT_LINE('MESSAGE 5  '||MESSAGE);
+                                                        END IF;
+                                                    CLOSE FETCH_ONLINE;                                                   
+                                            END IF;
+                                        CLOSE FETCH_USER;
+                                END IF;
+                            CLOSE FETCH_TIMEPROCE; 
+                    END IF; 
+                CLOSE FETCH_SIGNUP;       
+                EXCEPTION
+                    WHEN OTHERS THEN
+                        RAISE_APPLICATION_ERROR(-20001,'AN ERROR WAS ENCOUNTERED -
+                            '||SQLCODE||' -ERROR- '||SQLERRM);
+            END;
+/

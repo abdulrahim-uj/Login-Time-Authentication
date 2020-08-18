@@ -1,0 +1,54 @@
+CREATE OR REPLACE PROCEDURE SCOTT.PROC_SIGNOUT_GSA_USER(USER_NAME IN VARCHAR2,
+                                                   USER_TYPE IN NUMBER,
+                                                   USER_GSA_ID IN VARCHAR2,
+                                                   RETURN_VAL OUT NUMBER)
+IS
+    GET_RETURN NUMBER;
+    LS_USER_NAME VARCHAR2(30);
+    LI_USER_TYPE NUMBER;
+    LI_TABLE_ID NUMBER;
+    LS_GSA_ID VARCHAR2(15);
+    LI_SIGNUP_ID NUMBER;
+    LS_SIGNAL VARCHAR2(7);
+    CURSOR FETCH_ONLINE
+    IS
+        SELECT UNAME,TYPE,TABLE_ID,GSA_ID,SIGNUP_TABLE_ID,SIGNAL FROM TBL_SIGNIN 
+        WHERE GSA_ID = USER_GSA_ID
+        AND UNAME = USER_NAME
+        AND TYPE = USER_TYPE
+        AND SIGNAL = 'ONLINE';
+        BEGIN
+        OPEN FETCH_ONLINE;
+        FETCH FETCH_ONLINE INTO LS_USER_NAME,
+                                LI_USER_TYPE,
+                                LI_TABLE_ID,
+                                LS_GSA_ID,
+                                LI_SIGNUP_ID,
+                                LS_SIGNAL;
+            IF FETCH_ONLINE %NOTFOUND THEN
+                DBMS_OUTPUT.PUT_LINE('NO USER '||LS_USER_NAME);
+                GET_RETURN :='0';  --NO USER
+                DBMS_OUTPUT.PUT_LINE('NO USER 1   '||GET_RETURN);
+                RETURN_VAL :=GET_RETURN;
+            END IF;
+                IF FETCH_ONLINE %FOUND THEN
+                    DBMS_OUTPUT.PUT_LINE('SIGNAL USER '||LS_USER_NAME);
+                    DELETE FROM TBL_SIGNIN
+                    WHERE TABLE_ID = LI_TABLE_ID
+                    AND GSA_ID = LS_GSA_ID
+                    AND UNAME = LS_USER_NAME
+                    AND TYPE = LI_USER_TYPE
+                    AND SIGNUP_TABLE_ID = LI_SIGNUP_ID
+                    AND SIGNAL = LS_SIGNAL;
+                    COMMIT;
+                    GET_RETURN :='1';
+                    RETURN_VAL :=GET_RETURN;
+                    DBMS_OUTPUT.PUT_LINE('SIGNAL USER '||RETURN_VAL);
+                END IF;
+        CLOSE FETCH_ONLINE;
+        EXCEPTION
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20001,'AN ERROR WAS ENCOUNTERED -
+                    '||SQLCODE||' -ERROR- '||SQLERRM);
+        END;
+/

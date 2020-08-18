@@ -1,0 +1,161 @@
+CREATE OR REPLACE PROCEDURE SCOTT.PROC_GSA_ONUPDATE_PROCESS (CASE_NO NUMBER, TIME_TS IN varchar2, PRESS_TIME IN NUMBER, GSA_ID_NO IN VARCHAR2)
+    IS
+    BEGIN
+        IF CASE_NO = 0 THEN
+            UPDATE TBL_SIGNUP SET TIME_1 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+            COMMIT;                
+            UPDATE TBL_TIMEPROCE SET TIME_1 =PRESS_TIME WHERE GSA_ID = GSA_ID_NO;
+            COMMIT;
+            ELSIF CASE_NO = 1 THEN
+                UPDATE TBL_SIGNUP SET TIME_2 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_2 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 2 THEN
+                UPDATE TBL_SIGNUP SET TIME_3 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_3 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 3 THEN
+                UPDATE TBL_SIGNUP SET TIME_4 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_4 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 4 THEN
+                UPDATE TBL_SIGNUP SET TIME_5 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_5 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 5 THEN
+                UPDATE TBL_SIGNUP SET TIME_6 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_6 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 6 THEN
+                UPDATE TBL_SIGNUP SET TIME_7 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_7 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 7 THEN
+                UPDATE TBL_SIGNUP SET TIME_8 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_8 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 8 THEN
+                UPDATE TBL_SIGNUP SET TIME_9 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_9 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 9 THEN
+                UPDATE TBL_SIGNUP SET TIME_10 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_10 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 10 THEN
+                UPDATE TBL_SIGNUP SET TIME_11 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_11 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 11 THEN
+                UPDATE TBL_SIGNUP SET TIME_12 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_12 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 12 THEN
+                UPDATE TBL_SIGNUP SET TIME_13 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_13 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 13 THEN
+                UPDATE TBL_SIGNUP SET TIME_14 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_14 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 14 THEN
+                UPDATE TBL_SIGNUP SET TIME_15 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_15 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 15 THEN
+                UPDATE TBL_SIGNUP SET TIME_16 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_16 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 16 THEN
+                UPDATE TBL_SIGNUP SET TIME_17 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_17 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 17 THEN
+                UPDATE TBL_SIGNUP SET TIME_18 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_18 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 18 THEN
+                UPDATE TBL_SIGNUP SET TIME_19 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_19 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 19 THEN
+                UPDATE TBL_SIGNUP SET TIME_20 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_20 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 20 THEN
+                UPDATE TBL_SIGNUP SET TIME_21 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_21 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 21 THEN
+                UPDATE TBL_SIGNUP SET TIME_22 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_22 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 22 THEN
+                UPDATE TBL_SIGNUP SET TIME_23 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_23 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 23 THEN
+                UPDATE TBL_SIGNUP SET TIME_24 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_24 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 24 THEN
+                UPDATE TBL_SIGNUP SET TIME_25 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_25 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+            ELSIF CASE_NO = 25 THEN
+                UPDATE TBL_SIGNUP SET TIME_26 =TO_TIMESTAMP(TIME_TS,'YYYY-MM-DD HH24:MI:SS.FF3') WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;                
+                UPDATE TBL_TIMEPROCE SET TIME_26 =PRESS_TIME WHERE GSA_ID =GSA_ID_NO;
+                COMMIT;
+--            END IF;
+        END IF;
+END;
+/

@@ -1,0 +1,51 @@
+CREATE OR REPLACE PROCEDURE PROC_CRASH_CLOSE(RETURN_VAL OUT NUMBER)
+IS
+    LS_OWNER VARCHAR2(30);
+    GET_RETURN NUMBER;
+    LI_TABLE_ID NUMBER;
+    LS_GSA_ID VARCHAR2(15);
+    CURSOR FETCH_UNCOMPLETED_GSA
+    IS
+        SELECT TABLE_ID,GSA_ID,OWNER FROM TBL_GSA_ID_GENERATORE
+        WHERE TABLE_ID IS NOT NULL
+        AND GSA_ID IS NOT NULL
+        AND OWNER IS NULL;
+        BEGIN
+        OPEN FETCH_UNCOMPLETED_GSA;
+        FETCH FETCH_UNCOMPLETED_GSA INTO LI_TABLE_ID,
+                                         LS_GSA_ID,
+                                         LS_OWNER;
+            IF FETCH_UNCOMPLETED_GSA %NOTFOUND THEN
+                GET_RETURN :='0';  --NO USER
+                DBMS_OUTPUT.PUT_LINE('NO USER 1   '||GET_RETURN);
+                RETURN_VAL :=GET_RETURN;
+            END IF;
+                IF FETCH_UNCOMPLETED_GSA %FOUND THEN
+                    DELETE FROM TBL_SIGNUP
+                    WHERE GSA_ID = (SELECT GSA_ID FROM TBL_GSA_ID_GENERATORE
+                                    WHERE TABLE_ID IS NOT NULL
+                                    AND GSA_ID IS NOT NULL
+                                    AND OWNER IS NULL);
+                    COMMIT;
+                    DELETE FROM TBL_TIMEPROCE
+                    WHERE GSA_ID = (SELECT GSA_ID FROM TBL_GSA_ID_GENERATORE
+                                    WHERE TABLE_ID IS NOT NULL
+                                    AND GSA_ID IS NOT NULL
+                                    AND OWNER IS NULL);
+                    COMMIT;
+                    DELETE FROM TBL_GSA_ID_GENERATORE
+                    WHERE GSA_ID IS NOT NULL
+                    AND TABLE_ID IS NOT NULL
+                    AND OWNER IS NULL;
+                    COMMIT;
+                    GET_RETURN :='1';
+                    RETURN_VAL :=GET_RETURN;
+                    DBMS_OUTPUT.PUT_LINE('SIGNAL USER '||RETURN_VAL);
+                END IF;
+        CLOSE FETCH_UNCOMPLETED_GSA;
+        EXCEPTION
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20001,'AN ERROR WAS ENCOUNTERED -
+                    '||SQLCODE||' -ERROR- '||SQLERRM);
+        END;
+/
